@@ -1,0 +1,23 @@
+{
+  "workbench.colorCustomizations": {
+    "titleBar.activeBackground": "#b56b8a",
+    "titleBar.activeForeground": "#f5eef1",
+    "titleBar.inactiveBackground": "#8a5270",
+    "titleBar.inactiveForeground": "#d4c0cb"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "file"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "file"
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "file"
+  }
+}

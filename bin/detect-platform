@@ -1,0 +1,116 @@
+#!/bin/sh
+# Detect platform details: OS, distro, WSL, architecture, shell, and
+# available package managers. Outputs shell-evaluable assignments to stdout.
+# Usage: eval "$(./bin/detect-platform)"
+
+set -eu
+
+_has_cmd() { command -v "$1" >/dev/null 2>&1; }
+
+# --- OS ---
+
+PLATFORM_OS=""
+if _has_cmd uname; then
+  PLATFORM_OS="$(uname -s)"
+elif [ "${OS:-}" = "Windows_NT" ]; then
+  PLATFORM_OS="Windows_NT"
+fi
+
+case "$PLATFORM_OS" in
+  MINGW*|MSYS*|CYGWIN*) PLATFORM_OS="Windows_NT" ;;
+esac
+
+if [ -z "$PLATFORM_OS" ] && [ -n "${MSYSTEM:-}" ]; then
+  PLATFORM_OS="Windows_NT"
+fi
+
+# --- Architecture ---
+
+PLATFORM_ARCH=""
+if _has_cmd uname; then
+  PLATFORM_ARCH="$(uname -m)"
+fi
+
+# --- WSL ---
+
+PLATFORM_WSL=false
+if [ "$PLATFORM_OS" = "Linux" ] && [ -f /proc/version ]; then
+  case "$(cat /proc/version)" in
+    *microsoft*|*Microsoft*|*WSL*) PLATFORM_WSL=true ;;
+  esac
+fi
+
+# --- Linux distro ---
+
+PLATFORM_DISTRO=""
+PLATFORM_DISTRO_LIKE=""
+if [ -f /etc/os-release ]; then
+  # shellcheck disable=SC1091
+  . /etc/os-release
+  PLATFORM_DISTRO="${ID:-}"
+  PLATFORM_DISTRO_LIKE="${ID_LIKE:-}"
+fi
+
+# --- Shell ---
+
+PLATFORM_SHELL=""
+if [ -n "${SHELL:-}" ]; then
+  PLATFORM_SHELL="$(basename "$SHELL")"
+else
+  PLATFORM_SHELL="$(basename "$(ps -p $$ -o comm= 2>/dev/null)" 2>/dev/null)" || true
+fi
+
+# --- Available package managers ---
+
+PLATFORM_PKG_MANAGERS=""
+
+_add_pm() {
+  if [ -z "$PLATFORM_PKG_MANAGERS" ]; then
+    PLATFORM_PKG_MANAGERS="$1"
+  else
+    PLATFORM_PKG_MANAGERS="$PLATFORM_PKG_MANAGERS $1"
+  fi
+}
+
+case "$PLATFORM_OS" in
+  Linux)
+    _has_cmd apt      && _add_pm apt
+    _has_cmd dnf      && _add_pm dnf
+    _has_cmd apk      && _add_pm apk
+    _has_cmd pacman   && _add_pm pacman
+    _has_cmd snap     && _add_pm snap
+    _has_cmd pacstall && _add_pm pacstall
+    _has_cmd brew     && _add_pm brew
+    ;;
+  Darwin)
+    _has_cmd brew     && _add_pm brew
+    _has_cmd port     && _add_pm port
+    ;;
+  FreeBSD)
+    _has_cmd pkg      && _add_pm pkg
+    ;;
+  Windows_NT)
+    _has_cmd winget   && _add_pm winget
+    _has_cmd choco    && _add_pm choco
+    _has_cmd scoop    && _add_pm scoop
+    ;;
+esac
+
+_has_cmd nix-env && _add_pm nix
+_has_cmd mise    && _add_pm mise
+_has_cmd pkgx    && _add_pm pkgx
+_has_cmd npm     && _add_pm npm
+_has_cmd go      && _add_pm go
+_has_cmd cargo   && _add_pm cargo
+_has_cmd pip3    && _add_pm pip
+_has_cmd pip     && { case "$PLATFORM_PKG_MANAGERS" in *pip*) ;; *) _add_pm pip ;; esac; }
+
+# --- Output ---
+
+printf '%s\n' "PLATFORM_OS='$PLATFORM_OS'"
+printf '%s\n' "PLATFORM_ARCH='$PLATFORM_ARCH'"
+printf '%s\n' "PLATFORM_WSL=$PLATFORM_WSL"
+printf '%s\n' "PLATFORM_DISTRO='$PLATFORM_DISTRO'"
+printf '%s\n' "PLATFORM_DISTRO_LIKE='$PLATFORM_DISTRO_LIKE'"
+printf '%s\n' "PLATFORM_SHELL='$PLATFORM_SHELL'"
+printf '%s\n' "PLATFORM_PKG_MANAGERS='$PLATFORM_PKG_MANAGERS'"

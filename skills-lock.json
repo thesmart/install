@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "skills": {
+    "shellcraft": {
+      "source": "thesmart/shellcraft",
+      "sourceType": "github",
+      "computedHash": "3fd3c40b430f216a179ecd519e9c82095967462b4149ff87e40ecda9518cd3ba"
+    },
+    "skill-creator": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "computedHash": "b122f4d1e91aa1d83027e050b5b37c3156203ee85458d7b1360bc48167c9e02a"
+    }
+  }
+}
