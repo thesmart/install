@@ -5,6 +5,37 @@
 A skill for selecting and operating the best package managers for the user's environment. Handles
 searching, installing, updating, and removing packages.
 
+## Features
+
+- Automatic platform detection (OS, distro, arch, WSL, shell)
+- Discovers available package managers on the system
+- Install, uninstall, search, list, and version-pin packages
+- User-level vs system-level scope awareness
+
+## Supported Package Managers
+
+| Manager  | Platforms                       |
+| -------- | ------------------------------- |
+| apt      | Debian, Ubuntu, Mint, Pop, Kali |
+| dnf      | Fedora, RHEL, CentOS, Rocky     |
+| apk      | Alpine Linux                    |
+| pacman   | Arch, Manjaro, EndeavourOS      |
+| snap     | Linux (most distros)            |
+| nix      | Linux, macOS                    |
+| pacstall | Debian, Ubuntu                  |
+| brew     | macOS, Linux                    |
+| port     | macOS                           |
+| winget   | Windows 10+                     |
+| choco    | Windows                         |
+| scoop    | Windows                         |
+| npm      | cross-platform                  |
+| pip      | cross-platform                  |
+| mise     | cross-platform                  |
+| go       | cross-platform                  |
+| cargo    | cross-platform                  |
+| pkgx     | macOS, Linux                    |
+| pkg      | FreeBSD                         |
+
 ---
 
 ## Installation

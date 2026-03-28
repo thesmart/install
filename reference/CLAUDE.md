@@ -10,3 +10,4 @@ Whenever a package manager is added, removed, or renamed in
   `case`).
 - Removed a package manager? Remove its `_has_cmd` line.
 - Renamed the `cmd_exists` binary? Update the corresponding `_has_cmd` argument.
+- Always update the "Supported Package Managers" table in `README.md` to match.
