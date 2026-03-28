@@ -1,16 +1,12 @@
 ---
 name: install
 description: >-
-  Detects the user's OS and available package managers, then runs the correct install, uninstall,
-  search, or list command. Use this skill whenever the user asks to install, remove, update, or
-  search for a package or CLI tool — even if they don't name a specific package manager. Also
-  activate when the user says things like "I need ffmpeg", "get me node 20", "remove postgres",
-  "what package managers do I have", or "how do I install X on this machine".
+  Detects the user's OS and available package managers, then runs the correct install, uninstall, search, or list command. Use this skill whenever the user asks to install, remove, update, or search for a package or CLI tool — even if they don't name a specific package manager. Also activate when the user says things like "I need ffmpeg", "get me node 20", "remove postgres", "what package managers do I have", or "how do I install X on this machine".
 license: PolyForm-Internal-Use-1.0.0
 compatibility: Bash
 metadata:
   author: thesmart
-  version: 0.0.1
+  version: 1.0.1
 ---
 
 # Package Installer
