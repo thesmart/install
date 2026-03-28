@@ -1,4 +1,4 @@
-.PHONY: check-deps fmt install bump-major bump-minor bump-patch set-skill-version update-skills tag tokens
+.PHONY: check-deps fmt bump-major bump-minor bump-patch set-skill-version update-skills tag tokens
 
 check-deps:
 	@command -v npx >/dev/null 2>&1 || { echo "Error: npx not found. Install Node.js: https://nodejs.org/" >&2; exit 1; }
@@ -28,9 +28,7 @@ bump-major bump-minor bump-patch: check-deps
 	echo "--- $@: done ---"
 
 set-skill-version: check-deps
-	@V=$$(cat VERSION); \
-	yq -i ".metadata.version = \"$$V\"" SKILL.md; \
-	echo "--- set-skill-version: SKILL.md -> $$V ---"
+	@vendor/set-skill-version SKILL.md "$$(cat VERSION)"
 
 update-skills: check-deps
 	@echo "--- update-skills ---"
